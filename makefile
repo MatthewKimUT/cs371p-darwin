@@ -72,7 +72,7 @@ html: Doxyfile Darwin.h Darwin.c++ Darwin.c++ TestDarwin.c++
 Darwin.log:
 	git log > Darwin.log
 
-Darwin-tests:
+darwin-tests:
 	git clone https://github.com/cs371p-fall-2015/darwin-tests.git
 
 Doxyfile:
