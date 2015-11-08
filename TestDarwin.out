@@ -1,53 +1,109 @@
-==6543== Memcheck, a memory error detector
-==6543== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
-==6543== Using Valgrind-3.10.0.SVN and LibVEX; rerun with -h for copyright info
-==6543== Command: ./TestVoting
-==6543== 
+==26542== Memcheck, a memory error detector
+==26542== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==26542== Using Valgrind-3.10.0.SVN and LibVEX; rerun with -h for copyright info
+==26542== Command: ./TestDarwin
+==26542== 
 Running main() from gtest_main.cc
-[==========] Running 9 tests from 1 test case.
+[==========] Running 37 tests from 1 test case.
 [----------] Global test environment set-up.
-[----------] 9 tests from VotingFixture
-[ RUN      ] VotingFixture.voting1
-[       OK ] VotingFixture.voting1 (91 ms)
-[ RUN      ] VotingFixture.voting2
-[       OK ] VotingFixture.voting2 (13 ms)
-[ RUN      ] VotingFixture.voting3
-[       OK ] VotingFixture.voting3 (8 ms)
-[ RUN      ] VotingFixture.voting4
-[       OK ] VotingFixture.voting4 (6 ms)
-[ RUN      ] VotingFixture.voting5
-[       OK ] VotingFixture.voting5 (54 ms)
-[ RUN      ] VotingFixture.split1
-[       OK ] VotingFixture.split1 (6 ms)
-[ RUN      ] VotingFixture.split2
-[       OK ] VotingFixture.split2 (5 ms)
-[ RUN      ] VotingFixture.split3
-[       OK ] VotingFixture.split3 (5 ms)
-[ RUN      ] VotingFixture.solve
-[       OK ] VotingFixture.solve (12 ms)
-[----------] 9 tests from VotingFixture (207 ms total)
+[----------] 37 tests from DarwinFixture
+[ RUN      ] DarwinFixture.printDarwin1
+[       OK ] DarwinFixture.printDarwin1 (42 ms)
+[ RUN      ] DarwinFixture.printCreature1
+[       OK ] DarwinFixture.printCreature1 (14 ms)
+[ RUN      ] DarwinFixture.printSpecies1
+[       OK ] DarwinFixture.printSpecies1 (3 ms)
+[ RUN      ] DarwinFixture.printSpecies2
+[       OK ] DarwinFixture.printSpecies2 (2 ms)
+[ RUN      ] DarwinFixture.addCreature1
+[       OK ] DarwinFixture.addCreature1 (25 ms)
+[ RUN      ] DarwinFixture.addCreature2
+[       OK ] DarwinFixture.addCreature2 (4 ms)
+[ RUN      ] DarwinFixture.addCreature3
+[       OK ] DarwinFixture.addCreature3 (8 ms)
+[ RUN      ] DarwinFixture.doTurn1
+[       OK ] DarwinFixture.doTurn1 (26 ms)
+[ RUN      ] DarwinFixture.doTurn2
+[       OK ] DarwinFixture.doTurn2 (16 ms)
+[ RUN      ] DarwinFixture.tryHop1
+[       OK ] DarwinFixture.tryHop1 (5 ms)
+[ RUN      ] DarwinFixture.tryHop2
+[       OK ] DarwinFixture.tryHop2 (4 ms)
+[ RUN      ] DarwinFixture.tryHop3
+[       OK ] DarwinFixture.tryHop3 (6 ms)
+[ RUN      ] DarwinFixture.tryNeighbor1
+[       OK ] DarwinFixture.tryNeighbor1 (5 ms)
+[ RUN      ] DarwinFixture.tryNeighbor2
+[       OK ] DarwinFixture.tryNeighbor2 (4 ms)
+[ RUN      ] DarwinFixture.tryNeighbor3
+[       OK ] DarwinFixture.tryNeighbor3 (5 ms)
+[ RUN      ] DarwinFixture.tryEmpty1
+[       OK ] DarwinFixture.tryEmpty1 (5 ms)
+[ RUN      ] DarwinFixture.tryEmpty2
+[       OK ] DarwinFixture.tryEmpty2 (3 ms)
+[ RUN      ] DarwinFixture.tryEmpty3
+[       OK ] DarwinFixture.tryEmpty3 (5 ms)
+[ RUN      ] DarwinFixture.tryWall1
+[       OK ] DarwinFixture.tryWall1 (4 ms)
+[ RUN      ] DarwinFixture.tryWall2
+[       OK ] DarwinFixture.tryWall2 (3 ms)
+[ RUN      ] DarwinFixture.tryWall3
+[       OK ] DarwinFixture.tryWall3 (5 ms)
+[ RUN      ] DarwinFixture.do_direction1
+[       OK ] DarwinFixture.do_direction1 (6 ms)
+[ RUN      ] DarwinFixture.tryHop4
+[       OK ] DarwinFixture.tryHop4 (3 ms)
+[ RUN      ] DarwinFixture.tryHop5
+[       OK ] DarwinFixture.tryHop5 (4 ms)
+[ RUN      ] DarwinFixture.tryHop6
+[       OK ] DarwinFixture.tryHop6 (4 ms)
+[ RUN      ] DarwinFixture.tryInfect1
+[       OK ] DarwinFixture.tryInfect1 (6 ms)
+[ RUN      ] DarwinFixture.tryInfect2
+[       OK ] DarwinFixture.tryInfect2 (4 ms)
+[ RUN      ] DarwinFixture.tryInfect3
+[       OK ] DarwinFixture.tryInfect3 (6 ms)
+[ RUN      ] DarwinFixture.tryEmpty4
+[       OK ] DarwinFixture.tryEmpty4 (3 ms)
+[ RUN      ] DarwinFixture.tryEmpty5
+[       OK ] DarwinFixture.tryEmpty5 (3 ms)
+[ RUN      ] DarwinFixture.tryEmpty6
+[       OK ] DarwinFixture.tryEmpty6 (4 ms)
+[ RUN      ] DarwinFixture.tryEnemy4
+[       OK ] DarwinFixture.tryEnemy4 (3 ms)
+[ RUN      ] DarwinFixture.tryEnemy5
+[       OK ] DarwinFixture.tryEnemy5 (4 ms)
+[ RUN      ] DarwinFixture.tryEnemy6
+[       OK ] DarwinFixture.tryEnemy6 (5 ms)
+[ RUN      ] DarwinFixture.tryWall4
+[       OK ] DarwinFixture.tryWall4 (4 ms)
+[ RUN      ] DarwinFixture.tryWall5
+[       OK ] DarwinFixture.tryWall5 (3 ms)
+[ RUN      ] DarwinFixture.tryWall6
+[       OK ] DarwinFixture.tryWall6 (5 ms)
+[----------] 37 tests from DarwinFixture (268 ms total)
 
 [----------] Global test environment tear-down
-[==========] 9 tests from 1 test case ran. (235 ms total)
-[  PASSED  ] 9 tests.
-==6543== 
-==6543== HEAP SUMMARY:
-==6543==     in use at exit: 0 bytes in 0 blocks
-==6543==   total heap usage: 1,093 allocs, 1,093 frees, 76,296 bytes allocated
-==6543== 
-==6543== All heap blocks were freed -- no leaks are possible
-==6543== 
-==6543== For counts of detected and suppressed errors, rerun with: -v
-==6543== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
-File 'Voting.c++'
-Lines executed:91.08% of 157
-Branches executed:92.68% of 246
-Taken at least once:60.57% of 246
-Calls executed:74.48% of 239
-Creating 'Voting.c++.gcov'
-File 'TestVoting.c++'
-Lines executed:100.00% of 47
-Branches executed:76.60% of 376
-Taken at least once:41.22% of 376
-Calls executed:64.53% of 516
-Creating 'TestVoting.c++.gcov'
+[==========] 37 tests from 1 test case ran. (292 ms total)
+[  PASSED  ] 37 tests.
+==26542== 
+==26542== HEAP SUMMARY:
+==26542==     in use at exit: 0 bytes in 0 blocks
+==26542==   total heap usage: 1,383 allocs, 1,383 frees, 134,343 bytes allocated
+==26542== 
+==26542== All heap blocks were freed -- no leaks are possible
+==26542== 
+==26542== For counts of detected and suppressed errors, rerun with: -v
+==26542== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+File 'Darwin.c++'
+Lines executed:73.91% of 230
+Branches executed:71.63% of 282
+Taken at least once:50.00% of 282
+Calls executed:56.87% of 211
+Creating 'Darwin.c++.gcov'
+File 'TestDarwin.c++'
+Lines executed:100.00% of 364
+Branches executed:80.84% of 1628
+Taken at least once:40.42% of 1628
+Calls executed:62.76% of 1748
+Creating 'TestDarwin.c++.gcov'

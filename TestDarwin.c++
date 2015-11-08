@@ -1,5 +1,5 @@
-/** @file TestVoting.c++
- *  @brief Contains unit tests for each method in Voting.c++
+/** @file TestDarwin.c++
+ *  @brief Contains unit tests for each method in Darwin.c++
  */
 
 // https://code.google.com/p/googletest/wiki/V1_7_Primer#Basic_Assertions
@@ -15,7 +15,7 @@
 #include <vector>
 #include "gtest/gtest.h"
 
-#include "Voting.h"
+#include "Darwin.h"
 
 using namespace std;
 
@@ -23,141 +23,448 @@ using namespace std;
 // TestCollatz
 // -----------
 
-// ----
-// voting_answer
-// ----
+//ostream& operator << (ostream& os, const Darwin& d){
+//also tests Darwin::Darwin(int x, int y)
 
-TEST(VotingFixture, voting1){
-    std::vector<string> s = {"2","A","B", "1 2", "1 2"};
-    string str = voting_answer(s);
-    ASSERT_EQ( "A", str);
+TEST(DarwinFixture, printDarwin1){
+    Darwin d = Darwin(10, 10);
+    stringstream ss;
+    ss << d;
+
+    ASSERT_EQ(ss.str(), "  0123456789\n0 ..........\n1 ..........\n2 ..........\n3 ..........\n4 ..........\n5 ..........\n6 ..........\n7 ..........\n8 ..........\n9 ..........\n");
 }
 
-TEST(VotingFixture, voting2){
-    std::vector<string> s = {"3","Alpha","Beta", "Charlie", "1 2 3", "2 3 1", "3 1 2"};
-    string str = voting_answer(s);
-    ASSERT_EQ( "Alpha\nBeta\nCharlie", str);
+// ostream& operator << (ostream& os, const Creature& c){
+// also tests Creature::Creature(Species& s, direction d)
+
+TEST(DarwinFixture, printCreature1){
+    Species s = Species("b");
+    Creature c = Creature(s, NORTH);
+    stringstream ss;
+    ss << c;
+
+    ASSERT_EQ(ss.str(), "b");
 }
 
-TEST(VotingFixture, voting3){
-    std::vector<string> s = {"4","A","B", "C", "D", "1 2 4 3", "1 2 4 3", "2 1 4 3", "2 1 4 3"};
-    string str = voting_answer(s);
-    ASSERT_EQ( "A\nB", str);
+//ostream& operator << (ostream& os, const Species& s){
+//also tests Species::Species() and Species::Species(string s)
+
+TEST(DarwinFixture, printSpecies1){
+    Species s = Species();
+    stringstream ss;
+    ss << s;
+
+    ASSERT_EQ(ss.str(), ".");
+}
+TEST(DarwinFixture, printSpecies2){
+    Species s = Species("b");
+    stringstream ss;
+    ss << s;
+
+    ASSERT_EQ(ss.str(), "b");
 }
 
-TEST(VotingFixture, voting4){
-    std::vector<string> s = {"3", "one", "two", "three", "1 2 3", "1 2 3", "1 2 3"};
-    string str = voting_answer(s);
-    ASSERT_EQ( "one", str);
+//void Darwin::addCreature(Creature &c, int x, int y)
+TEST(DarwinFixture, addCreature1){
+    Darwin d1 = Darwin(10, 10);
+    Darwin d2 = Darwin(10, 10);
+    Species s = Species();
+    Creature c = Creature(s, NORTH);
+    d1.addCreature(c, 4, 4);
+    stringstream ss1;
+    ss1 << d1;
+    stringstream ss2;
+    ss2 << d2;
+    ASSERT_EQ(ss1.str(), ss2.str());
+}
+TEST(DarwinFixture, addCreature2){
+    Darwin d = Darwin(10, 10);
+    Species s = Species("a");
+    Creature c = Creature(s, NORTH);
+    d.addCreature(c, 4, 4);
+    stringstream ss;
+    ss << d;
+
+    ASSERT_EQ(ss.str(), "  0123456789\n0 ..........\n1 ..........\n2 ..........\n3 ..........\n4 ....a.....\n5 ..........\n6 ..........\n7 ..........\n8 ..........\n9 ..........\n");
+}
+TEST(DarwinFixture, addCreature3){
+    Darwin d = Darwin(10, 10);
+    Species s1 = Species("a");
+    Species s2 = Species("b");
+    Creature c1 = Creature(s1, NORTH);
+    Creature c2 = Creature(s2, NORTH);
+    d.addCreature(c1, 4, 4);
+    d.addCreature(c2, 4, 5);
+    stringstream ss;
+    ss << d;
+
+    ASSERT_EQ(ss.str(), "  0123456789\n0 ..........\n1 ..........\n2 ..........\n3 ..........\n4 ....ab....\n5 ..........\n6 ..........\n7 ..........\n8 ..........\n9 ..........\n");
 }
 
-TEST(VotingFixture, voting5){
-    std::vector<string> s = {"3", "help", "me", "please", "3 2 1", "1 2 3", "1 2 3"};
-    string str = voting_answer(s);
-    ASSERT_EQ( "help", str);
+//void Darwin::do_turn()
+//also tests void Species::addInstruction(), void Creature::do_stuff() and int Species::do_stuff(int pc, Creature*c, Darwin& d)
+TEST(DarwinFixture, doTurn1){
+    Darwin d1 = Darwin(10, 10);
+    Species s = Species();
+    s.addInstruction("hop");
+    s.addInstruction("go 0");
+    Creature c = Creature(s, NORTH);
+    d1.addCreature(c, 4, 4);
+    d1.do_turn();
+    stringstream ss;
+    ss << d1;
+    ASSERT_EQ(ss.str(), "  0123456789\n0 ..........\n1 ..........\n2 ..........\n3 ..........\n4 ..........\n5 ..........\n6 ..........\n7 ..........\n8 ..........\n9 ..........\n");
+}
+TEST(DarwinFixture, doTurn2){
+    Darwin d1 = Darwin(10, 10);
+    Species s = Species();
+    s.addInstruction("hop");
+    s.addInstruction("left");
+    s.addInstruction("go 0");
+    Creature c = Creature(s, NORTH);
+    d1.addCreature(c, 4, 4);
+    d1.do_turn();
+    d1.do_turn();
+    d1.do_turn();
+    stringstream ss;
+    ss << d1;
+    ASSERT_EQ(ss.str(), "  0123456789\n0 ..........\n1 ..........\n2 ..........\n3 ..........\n4 ..........\n5 ..........\n6 ..........\n7 ..........\n8 ..........\n9 ..........\n");
 }
 
-
-// -----
-// split
-// -----
-TEST(VotingFixture, split1){
-    string s = "one two three four";
-    std::vector<string> strs = split(s, ' ');
-    std::vector<string> ans {"one", "two", "three", "four"};
-    for(unsigned int i = 0; i < strs.size(); i++){
-        ASSERT_EQ(strs[i], ans[i]);
-    }
+//void Creature::try_hop(Darwin * d)
+//also tests Creature& Darwin::at(int x, int y)
+TEST(DarwinFixture, tryHop1){
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Creature c = Creature(s, NORTH);
+    d1.addCreature(c, 1, 1);
+    Creature * cp = d1.at(1, 1);
+    cp->try_hop(d1);
+    stringstream ss;
+    ss << d1;
+    ASSERT_EQ(ss.str(), "  01\n0 .b\n1 ..\n");
 }
 
-TEST(VotingFixture, split2){
-    string s = "one:two:three four";
-    std::vector<string> strs = split(s, ':');
-    std::vector<string> ans {"one", "two", "three four"};
-    for(unsigned int i = 0; i < strs.size(); i++){
-        ASSERT_EQ(strs[i], ans[i]);
-    }
+TEST(DarwinFixture, tryHop2){
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Creature c = Creature(s, NORTH);
+    d1.addCreature(c, 1, 1);
+    Creature * cp = d1.at(1, 1);
+    cp->try_hop(d1);
+    cp->try_hop(d1);
+    stringstream ss;
+    ss << d1;
+    ASSERT_EQ(ss.str(), "  01\n0 .b\n1 ..\n");
 }
 
-TEST(VotingFixture, split3){
-    string s = "onetwothreefour";
-    std::vector<string> strs = split(s, 't');
-    std::vector<string> ans {"one", "wo", "hreefour"};
-    for(unsigned int i = 0; i < strs.size(); i++){
-        ASSERT_EQ(strs[i], ans[i]);
-    }
+TEST(DarwinFixture, tryHop3){
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Species s2 = Species("c"); 
+    Creature c = Creature(s, NORTH);
+    Creature c2 = Creature(s2, WEST);
+    d1.addCreature(c, 1, 1);
+    d1.addCreature(c2, 0, 1);
+    Creature * cp = d1.at(1, 1);
+    Creature * cp2 = d1.at(0, 1);
+    cp->try_hop(d1);
+    cp2->try_hop(d1);
+    cp->try_hop(d1);
+    stringstream ss;
+    ss << d1;
+    ASSERT_EQ(ss.str(), "  01\n0 cb\n1 ..\n");
 }
 
-// -----
-// solve
-// -----
-
-TEST(VotingFixture, solve){
-    istringstream r("1\n\n2\nA\nB\n1 2\n1 2");
-    ostringstream w;
-    voting_solve(r, w);
-    ASSERT_EQ("A\n", w.str());
+//Creature* Darwin::return_neighbor(Creature*c, direction)
+TEST(DarwinFixture, tryNeighbor1){//test empty
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Creature c = Creature(s, NORTH);
+    d1.addCreature(c, 1, 1);
+    Creature * cp = d1.at(1, 1);
+    Creature * a = d1.return_neighbor(cp, WEST);
+    Creature * n = NULL;
+    ASSERT_EQ(a, n);
+}
+TEST(DarwinFixture, tryNeighbor2){//test wall
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Creature c = Creature(s, NORTH);
+    d1.addCreature(c, 1, 1);
+    Creature * cp = d1.at(1, 1);
+    Creature * a = d1.return_neighbor(cp, EAST);
+    Creature * n = NULL;
+    ASSERT_EQ(a, n);
+}
+TEST(DarwinFixture, tryNeighbor3){//test neighbor
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Species s2 = Species("c"); 
+    Creature c = Creature(s, NORTH);
+    Creature c2 = Creature(s2, WEST);
+    d1.addCreature(c, 1, 1);
+    d1.addCreature(c2, 0, 1);
+    Creature * cp = d1.at(1, 1);
+    Creature * cp2 = d1.at(0, 1);
+    Creature * a = d1.return_neighbor(cp, NORTH);
+    ASSERT_EQ(a, cp2);
 }
 
-/*
-% g++ -fprofile-arcs -ftest-coverage -pedantic -std=c++11 -Wall Collatz.c++ TestCollatz.c++ -o TestCollatz -lgtest -lgtest_main -lpthread
+//bool Darwin::check_empty(Creature*c, direction)
+TEST(DarwinFixture, tryEmpty1){//test empty
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Creature c = Creature(s, NORTH);
+    d1.addCreature(c, 1, 1);
+    Creature * cp = d1.at(1, 1);
+    bool a = d1.check_empty(cp, WEST);
+    ASSERT_EQ(a, true);
+}
+TEST(DarwinFixture, tryEmpty2){//test wall
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Creature c = Creature(s, NORTH);
+    d1.addCreature(c, 1, 1);
+    Creature * cp = d1.at(1, 1);
+    bool a = d1.check_empty(cp, EAST);
+    ASSERT_EQ(a, false);
+}
+TEST(DarwinFixture, tryEmpty3){//test not empty
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Species s2 = Species("c"); 
+    Creature c = Creature(s, NORTH);
+    Creature c2 = Creature(s2, WEST);
+    d1.addCreature(c, 1, 1);
+    d1.addCreature(c2, 0, 1);
+    Creature * cp = d1.at(1, 1);
+    bool a = d1.check_empty(cp, NORTH);
+    ASSERT_EQ(a, false);
+}
 
+//bool Darwin::check_wall(Creature*c, direction)
+TEST(DarwinFixture, tryWall1){//test empty
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Creature c = Creature(s, NORTH);
+    d1.addCreature(c, 1, 1);
+    Creature * cp = d1.at(1, 1);
+    bool a = d1.check_wall(cp, WEST);
+    ASSERT_EQ(a, false);
+}
+TEST(DarwinFixture, tryWall2){//test wall
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Creature c = Creature(s, NORTH);
+    d1.addCreature(c, 1, 1);
+    Creature * cp = d1.at(1, 1);
+    bool a = d1.check_wall(cp, EAST);
+    ASSERT_EQ(a, true);
+}
+TEST(DarwinFixture, tryWall3){//test not empty
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Species s2 = Species("c"); 
+    Creature c = Creature(s, NORTH);
+    Creature c2 = Creature(s2, WEST);
+    d1.addCreature(c, 1, 1);
+    d1.addCreature(c2, 0, 1);
+    Creature * cp = d1.at(1, 1);
+    bool a = d1.check_wall(cp, NORTH);
+    ASSERT_EQ(a, false);
+}
 
+//void Creature::do_left() and void Creature::do_right()
+TEST(DarwinFixture, do_direction1){//test not empty
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Species s2 = Species("c"); 
+    Creature c = Creature(s, NORTH);
+    Creature c2 = Creature(s2, WEST);
+    d1.addCreature(c, 1, 1);
+    d1.addCreature(c2, 0, 1);
+    Creature * cp = d1.at(1, 1);
+    cp->do_left();
+    bool an = cp->if_empty(d1);
+    ASSERT_EQ(an, true);
+    cp->do_right();
+    an = cp->if_enemy(d1);
+    ASSERT_EQ(an, true);
+}
 
-% valgrind TestCollatz                                         >  TestCollatz.out 2>&1
-% gcov -b Collatz.c++     | grep -A 5 "File 'Collatz.c++'"     >> TestCollatz.out
-% gcov -b TestCollatz.c++ | grep -A 5 "File 'TestCollatz.c++'" >> TestCollatz.out
+//void Creature::try_hop(Darwin &d)
+TEST(DarwinFixture, tryHop4){//test empty
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Creature c = Creature(s, NORTH);
+    d1.addCreature(c, 1, 1);
+    Creature * cp = d1.at(1, 1);
+    cp->try_hop(d1);
+    ASSERT_EQ(cp, d1.at(0, 1));
+}
+TEST(DarwinFixture, tryHop5){//test wall
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Creature c = Creature(s, EAST);
+    d1.addCreature(c, 1, 1);
+    Creature * cp = d1.at(1, 1);
+    cp->try_hop(d1);
+    ASSERT_EQ(cp, d1.at(1, 1));
+}
+TEST(DarwinFixture, tryHop6){//test not empty
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Species s2 = Species("c"); 
+    Creature c = Creature(s, NORTH);
+    Creature c2 = Creature(s2, WEST);
+    d1.addCreature(c, 1, 1);
+    d1.addCreature(c2, 0, 1);
+    Creature * cp = d1.at(1, 1);
+    cp->try_hop(d1);
+    ASSERT_EQ(cp, d1.at(1, 1));
+}
 
+//void Creature::try_infect(Darwin &d)
+TEST(DarwinFixture, tryInfect1){//test 2 different species
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Species s2 = Species("c"); 
+    Creature c = Creature(s, NORTH);
+    Creature c2 = Creature(s2, WEST);
+    d1.addCreature(c, 1, 1);
+    d1.addCreature(c2, 0, 1);
+    Creature * cp = d1.at(1, 1);
+    cp->try_infect(d1);
+    stringstream ss;
+    ss << c2;
+    ASSERT_EQ(ss.str(), "b");
+}
+TEST(DarwinFixture, tryInfect2){//test 2 same species
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("c");   
+    Creature c = Creature(s, NORTH);
+    Creature c2 = Creature(s, WEST);
+    d1.addCreature(c, 1, 1);
+    d1.addCreature(c2, 0, 1);
+    Creature * cp = d1.at(1, 1);
+    cp->try_infect(d1);
+    stringstream ss;
+    ss << c2;
+    ASSERT_EQ(ss.str(), "c");
+}
+TEST(DarwinFixture, tryInfect3){//test failed infection
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Species s2 = Species("c"); 
+    Creature c = Creature(s, NORTH);
+    Creature c2 = Creature(s2, WEST);
+    d1.addCreature(c, 1, 1);
+    d1.addCreature(c2, 0, 1);
+    Creature * cp = d1.at(0, 1);
+    cp->try_infect(d1);
+    stringstream ss;
+    ss << c2;
+    stringstream ss1;
+    ss1 << c;
+    ASSERT_EQ(ss.str(), "c");
+    ASSERT_EQ(ss1.str(), "b");
+}
 
+//bool Creature::if_empty(Darwin & d)
+TEST(DarwinFixture, tryEmpty4){//test wall
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Creature c = Creature(s, EAST);
+    d1.addCreature(c, 1, 1);
+    Creature * cp = d1.at(1, 1);
+    bool a = cp->if_empty(d1);
+    ASSERT_EQ(a, false);
+}
+TEST(DarwinFixture, tryEmpty5){//test empty
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Creature c = Creature(s, NORTH);
+    d1.addCreature(c, 1, 1);
+    Creature * cp = d1.at(1, 1);
+    bool a = cp->if_empty(d1);
+    ASSERT_EQ(a, true);
+}
+TEST(DarwinFixture, tryEmpty6){//test not empty
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Species s2 = Species("c"); 
+    Creature c = Creature(s, NORTH);
+    Creature c2 = Creature(s2, WEST);
+    d1.addCreature(c, 1, 1);
+    d1.addCreature(c2, 0, 1);
+    Creature * cp = d1.at(1, 1);
+    bool a = cp->if_empty(d1);
+    ASSERT_EQ(a, false);
+}
 
-% cat TestCollatz.out
-==14225== Memcheck, a memory error detector
-==14225== Copyright (C) 2002-2011, and GNU GPL'd, by Julian Seward et al.
-==14225== Using Valgrind-3.7.0 and LibVEX; rerun with -h for copyright info
-==14225== Command: TestCollatz
-==14225==
-Running main() from gtest_main.cc
-[==========] Running 7 tests from 1 test case.
-[----------] Global test environment set-up.
-[----------] 7 tests from Collatz
-[ RUN      ] Collatz.read
-[       OK ] Collatz.read (31 ms)
-[ RUN      ] Collatz.eval_1
-[       OK ] Collatz.eval_1 (5 ms)
-[ RUN      ] Collatz.eval_2
-[       OK ] Collatz.eval_2 (3 ms)
-[ RUN      ] Collatz.eval_3
-[       OK ] Collatz.eval_3 (3 ms)
-[ RUN      ] Collatz.eval_4
-[       OK ] Collatz.eval_4 (3 ms)
-[ RUN      ] Collatz.print
-[       OK ] Collatz.print (17 ms)
-[ RUN      ] Collatz.solve
-[       OK ] Collatz.solve (10 ms)
-[----------] 7 tests from Collatz (88 ms total)
+//bool Creature::if_enemy(Darwin & d)
+TEST(DarwinFixture, tryEnemy4){//test empty
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Creature c = Creature(s, NORTH);
+    d1.addCreature(c, 1, 1);
+    Creature * cp = d1.at(1, 1);
+    bool a = cp->if_enemy(d1);
+    ASSERT_EQ(a, false);
+}
+TEST(DarwinFixture, tryEnemy5){//test same species
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Creature c = Creature(s, NORTH);
+    Creature c2 = Creature(s, EAST);
+    d1.addCreature(c, 1, 1);
+    d1.addCreature(c2, 0, 1);
+    Creature * cp = d1.at(1, 1);
+    bool a = cp->if_enemy(d1);
+    ASSERT_EQ(a, false);
+}
+TEST(DarwinFixture, tryEnemy6){//test enemy
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Species s2 = Species("c"); 
+    Creature c = Creature(s, NORTH);
+    Creature c2 = Creature(s2, WEST);
+    d1.addCreature(c, 1, 1);
+    d1.addCreature(c2, 0, 1);
+    Creature * cp = d1.at(1, 1);
+    bool a = cp->if_enemy(d1);
+    ASSERT_EQ(a, true);
+}
 
-[----------] Global test environment tear-down
-[==========] 7 tests from 1 test case ran. (132 ms total)
-[  PASSED  ] 7 tests.
-==14225==
-==14225== HEAP SUMMARY:
-==14225==     in use at exit: 0 bytes in 0 blocks
-==14225==   total heap usage: 495 allocs, 495 frees, 70,302 bytes allocated
-==14225==
-==14225== All heap blocks were freed -- no leaks are possible
-==14225==
-==14225== For counts of detected and suppressed errors, rerun with: -v
-==14225== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 2 from 2)
-File 'Collatz.c++'
-Lines executed:100.00% of 17
-Branches executed:100.00% of 18
-Taken at least once:61.11% of 18
-Calls executed:89.47% of 19
-Creating 'Collatz.c++.gcov'
-File 'TestCollatz.c++'
-Lines executed:100.00% of 26
-Branches executed:57.14% of 224
-Taken at least once:28.57% of 224
-Calls executed:54.07% of 209
-Creating 'TestCollatz.c++.gcov'
-*/
+//bool Creature:: if_wall(Darwin &d)
+TEST(DarwinFixture, tryWall4){//test empty
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Creature c = Creature(s, NORTH);
+    d1.addCreature(c, 1, 1);
+    Creature * cp = d1.at(1, 1);
+    bool a = cp->if_wall(d1);
+    ASSERT_EQ(a, false);
+}
+TEST(DarwinFixture, tryWall5){//test wall
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Creature c = Creature(s, EAST);
+    d1.addCreature(c, 1, 1);
+    Creature * cp = d1.at(1, 1);
+    bool a = cp->if_wall(d1);
+    ASSERT_EQ(a, true);
+}
+TEST(DarwinFixture, tryWall6){//test not empty
+    Darwin d1 = Darwin(2, 2);
+    Species s = Species("b");   
+    Species s2 = Species("c"); 
+    Creature c = Creature(s, NORTH);
+    Creature c2 = Creature(s2, WEST);
+    d1.addCreature(c, 1, 1);
+    d1.addCreature(c2, 0, 1);
+    Creature * cp = d1.at(1, 1);
+    bool a = cp->if_wall(d1);
+    ASSERT_EQ(a, false);
+}
