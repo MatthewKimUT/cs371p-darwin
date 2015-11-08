@@ -3,11 +3,9 @@ FILES :=                              \
     Darwin.c++                       \
     Darwin.h                         \
     RunDarwin.c++                    \
-    RunDarwin.in                     \
     RunDarwin.out                    \
     TestDarwin.c++                   \
-    TestDarwin.out	                  \
-    TestDarwin.out					  
+    TestDarwin.out	                  \		  
 	#collatz-tests/myk235-RunCollatz.in   
     #collatz-tests/myk235-RunCollatz.out  
     #collatz-tests/myk235-TestCollatz.c++ 
