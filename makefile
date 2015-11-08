@@ -75,7 +75,7 @@ Darwin.log:
 	git log > Darwin.log
 
 Darwin-tests:
-	git clone https://github.com/cs371p-fall-2015/Darwin-tests.git
+	git clone https://github.com/cs371p-fall-2015/darwin-tests.git
 
 Doxyfile:
 	doxygen -g
